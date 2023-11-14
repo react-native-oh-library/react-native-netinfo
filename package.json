@@ -1,6 +1,6 @@
 {
   "name": "@react-native-community/netinfo",
-  "version": "11.1.0",
+  "version": "11.1.0-0.0.1",
   "description": "React Native Network Info API for iOS & Android",
   "react-native": "src/index.ts",
   "types": "lib/typescript/src/index.d.ts",
@@ -8,6 +8,7 @@
   "module": "lib/module/index.js",
   "files": [
     "/android",
+    "/harmony",
     "!/android/build",
     "/ios",
     "/windows",
@@ -109,12 +110,6 @@
       "module",
       "typescript"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn test"
-    }
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [

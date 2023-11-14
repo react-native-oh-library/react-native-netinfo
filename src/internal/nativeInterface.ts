@@ -7,7 +7,7 @@
  * @format
  */
 
-import {NativeEventEmitter} from 'react-native';
+import { NativeEventEmitter } from 'react-native';
 import RNCNetInfo from './nativeModule';
 
 // Produce an error if we don't have the native module
@@ -29,7 +29,10 @@ If none of these fix the issue, please open an issue on the Github repository: h
  */
 let nativeEventEmitter: NativeEventEmitter | null = null;
 export default {
-  ...RNCNetInfo,
+  configure: RNCNetInfo.configure,
+  addListener: RNCNetInfo.addListener,
+  removeListeners: RNCNetInfo.removeListeners,
+  getCurrentState: RNCNetInfo.getCurrentState,
   get eventEmitter(): NativeEventEmitter {
     if (!nativeEventEmitter) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
