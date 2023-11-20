@@ -1,13 +1,17 @@
 {
-  "name": "@react-native-community/netinfo",
-  "version": "11.1.0",
+  "name": "@react-native-oh-library/netinfo",
+  "version": "11.1.0-0.0.1",
   "description": "React Native Network Info API for iOS & Android",
+  "harmony": {
+    "alias": "@react-native-community/netinfo"
+  },
   "react-native": "src/index.ts",
   "types": "lib/typescript/src/index.d.ts",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "files": [
     "/android",
+    "/harmony",
     "!/android/build",
     "/ios",
     "/windows",
@@ -49,6 +53,9 @@
   ],
   "peerDependencies": {
     "react-native": ">=0.59"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {},
   "devDependencies": {
@@ -99,7 +106,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-native-netinfo/react-native-netinfo.git"
+    "url": "https://github.com/react-native-oh-library/react-native-netinfo.git"
   },
   "@react-native-community/bob": {
     "source": "src",

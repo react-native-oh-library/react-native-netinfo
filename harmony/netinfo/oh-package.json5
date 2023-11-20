@@ -1,0 +1,13 @@
+{
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "rhon": "file:../rnoh"
+  },
+  "author": "",
+  "name": "netinfo",
+  "description": "Please describe the basic information.",
+  "main": "ts.ts",
+  "version": "1.0.0",
+  "dependencies": {},
+  "types": 'har'
+}
