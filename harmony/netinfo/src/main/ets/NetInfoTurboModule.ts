@@ -97,41 +97,40 @@ export class NetInfoTurboModule extends TurboModule {
     // 订阅网络可用事件
     this.netConnection.on('netAvailable', (data) => {
       Logger.info('netAvailable,' + JSON.stringify(data));
-      if (this.numberOfListeners > 0) {
-        this.createConnectionEvent()
-          .then((data) => {
-            Logger.info('netInfo.networkStatusDidChange,netAvailable' + this.numberOfListeners)
-            this.ctx.rnInstance.emitDeviceEvent('netInfo.networkStatusDidChange', data)
-          })
-      }
+      this.listenerGetCurrentState()
     })
     // 订阅网络阻塞状态事件
-    this.netConnection.on('netBlockStatusChange', (data) => {
-      Logger.info('netBlockStatusChange,' + JSON.stringify(data));
-    })
-    // 订阅网络能力变化事件
-    // this.netConnection.on('netCapabilitiesChange', (data) => {
-    // Logger.info('netCapabilitiesChange,' + JSON.stringify(data));
+    // this.netConnection.on('netBlockStatusChange', (data) => {
+    //   Logger.info('netBlockStatusChange,' + JSON.stringify(data));
     // })
-    // 订阅网络连接信息变化事件
-    this.netConnection.on('netConnectionPropertiesChange', (data) => {
-      Logger.info('netConnectionPropertiesChange,' + JSON.stringify(data));
+    // 订阅网络能力变化事件
+    this.netConnection.on('netCapabilitiesChange', (data) => {
+      Logger.info('netCapabilitiesChange,' + JSON.stringify(data));
+      this.listenerGetCurrentState()
     })
+    // 订阅网络连接信息变化事件
+    // this.netConnection.on('netConnectionPropertiesChange', (data) => {
+    //   Logger.info('netConnectionPropertiesChange,' + JSON.stringify(data));
+    // })
     // 订阅网络丢失事件
     this.netConnection.on('netLost', (data) => {
       Logger.info('netLost,' + JSON.stringify(data))
-      if (this.numberOfListeners > 0) {
-        this.createConnectionEvent()
-          .then(data => {
-            Logger.info('netInfo.networkStatusDidChange,netLost' + this.numberOfListeners)
-            this.ctx.rnInstance.emitDeviceEvent('netInfo.networkStatusDidChange', data)
-          })
-      }
+      this.listenerGetCurrentState()
     })
     // 订阅网络不可用事件
     this.netConnection.on('netUnavailable', (data) => {
       Logger.info('netUnavailable,' + JSON.stringify(data))
+      this.listenerGetCurrentState()
     })
+  }
+
+  listenerGetCurrentState(): void {
+    if (this.numberOfListeners > 0) {
+      this.createConnectionEvent()
+        .then(data => {
+          this.ctx.rnInstance.emitDeviceEvent('netInfo.networkStatusDidChange', data)
+        })
+    }
   }
 
   async createConnectionEvent(): Promise<NetInfoState> {
@@ -163,9 +162,12 @@ export class NetInfoTurboModule extends TurboModule {
           case 3:
             event.type = 'ethernet'
             break
+          default:
+            event.type = 'unknown'
+            break
         }
       } //判断是否可访问internet
-      event.isInternetReachable = netCapabilities.networkCap.indexOf(12) != -1
+      event.isInternetReachable = netCapabilities.networkCap.indexOf(16) != -1
       // if (netCapabilities.networkCap.length == 1) {
       //    event.isInternetReachable = netCapabilities.networkCap[0] == 12
       // }
@@ -180,26 +182,26 @@ export class NetInfoTurboModule extends TurboModule {
       case 'cellular':
         break
       case 'wifi':
-      //wifi信息
+        //wifi信息
         const linkedInfo = await wifiManager.getLinkedInfo()
-      //ssid
+        //ssid
         details.ssid = linkedInfo.ssid
-      //bssid
+        //bssid
         details.bssid = linkedInfo.bssid
-      //信号强度 与安卓备注有区别
+        //信号强度 与安卓备注有区别
         details.strength = linkedInfo.rssi
-      //ipAddress
+        //ipAddress
         const ipInfo = wifiManager.getIpInfo();
         details.ipAddress = this.ipToString(ipInfo.ipAddress)
-      //subnet 掩码
+        //subnet 掩码
         details.subnet = this.ipToString(ipInfo.netmask)
-      //frequency
+        //frequency
         details.frequency = linkedInfo.frequency
-      //linkSpeed
+        //linkSpeed
         details.linkSpeed = linkedInfo.linkSpeed
-      //rxLinkSpeed
+        //rxLinkSpeed
         details.rxLinkSpeed = linkedInfo.rxLinkSpeed
-      //txLinkSpeed
+        //txLinkSpeed
         details.txLinkSpeed = linkedInfo.linkSpeed
         break
       case 'ethernet':
