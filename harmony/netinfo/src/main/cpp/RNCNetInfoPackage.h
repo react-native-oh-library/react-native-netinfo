@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (C) 2023 Huawei Device Co., Ltd.
@@ -13,7 +13,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANT KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -27,22 +27,20 @@
 
 using namespace rnoh;
 using namespace facebook;
-class RNCNetInfoFactoryDelegate : public TurboModuleFactoryDelegate
-{
+
+class RNCNetInfoFactoryDelegate : public TurboModuleFactoryDelegate {
 public:
     SharedTurboModule createTurboModule(Context ctx, const std::string &name) const override
     {
-        if (name == "RNCNetInfo")
-        {
+        if (name == "RNCNetInfo") {
             return std::make_shared<RNCNetInfoTurboModule>(ctx, name);
         }
         return nullptr;
     };
 };
-namespace rnoh
-{
-    class RNCNetInfoPackage : public Package
-    {
+
+namespace rnoh {
+    class RNCNetInfoPackage : public Package {
     public:
         RNCNetInfoPackage(Package::Context ctx) : Package(ctx) {}
         std::unique_ptr<TurboModuleFactoryDelegate> createTurboModuleFactoryDelegate() override

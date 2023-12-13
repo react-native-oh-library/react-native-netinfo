@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  *
  * Copyright (C) 2023 Huawei Device Co., Ltd.
@@ -13,7 +13,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANT KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -26,22 +26,32 @@
 using namespace rnoh;
 using namespace facebook;
 
-static jsi::Value __hostFunction_RNCNetInfoTurboModule_configure(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count)
+static jsi::Value __hostFunction_RNCNetInfoTurboModule_configure(jsi::Runtime &rt, react::TurboModule &turboModule,
+                                                                 const jsi::Value *args, size_t count)
 {
     return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "configure", args, count);
 }
-static jsi::Value __hostFunction_RNCNetInfoTurboModule_getCurrentState(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count)
+
+static jsi::Value __hostFunction_RNCNetInfoTurboModule_getCurrentState(jsi::Runtime &rt,
+                                                                       react::TurboModule &turboModule,
+                                                                       const jsi::Value *args, size_t count)
 {
     return static_cast<ArkTSTurboModule &>(turboModule).callAsync(rt, "getCurrentState", args, count);
 }
-static jsi::Value __hostFunction_RNCNetInfoTurboModule_addListener(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count)
+
+static jsi::Value __hostFunction_RNCNetInfoTurboModule_addListener(jsi::Runtime &rt, react::TurboModule &turboModule,
+                                                                   const jsi::Value *args, size_t count)
 {
     return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "addListener", args, count);
 }
-static jsi::Value __hostFunction_RNCNetInfoTurboModule_removeListeners(jsi::Runtime &rt, react::TurboModule &turboModule, const jsi::Value *args, size_t count)
+
+static jsi::Value __hostFunction_RNCNetInfoTurboModule_removeListeners(jsi::Runtime &rt,
+                                                                       react::TurboModule &turboModule,
+                                                                       const jsi::Value *args, size_t count)
 {
     return static_cast<ArkTSTurboModule &>(turboModule).call(rt, "removeListeners", args, count);
 }
+
 RNCNetInfoTurboModule::RNCNetInfoTurboModule(const ArkTSTurboModule::Context ctx, const std::string name)
     : ArkTSTurboModule(ctx, name)
 {
