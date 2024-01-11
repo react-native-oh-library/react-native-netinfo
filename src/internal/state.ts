@@ -9,9 +9,9 @@
 
 import {NativeEventSubscription} from 'react-native';
 import NativeInterface from './nativeInterface';
-import InternetReachability from './internetReachability';
-import * as Types from './types';
-import * as PrivateTypes from './privateTypes';
+import InternetReachability from '@react-native-community/netinfo/src/internal/internetReachability';
+import * as Types from '@react-native-community/netinfo/src/internal//types';
+import * as PrivateTypes from '@react-native-community/netinfo/src/internal//privateTypes';
 
 export default class State {
   private _nativeEventSubscription: NativeEventSubscription | null = null;

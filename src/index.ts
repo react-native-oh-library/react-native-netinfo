@@ -7,12 +7,12 @@
  * @format
  */
 
-import {useState, useEffect, useCallback} from 'react';
-import {Platform} from 'react-native';
-import DEFAULT_CONFIGURATION from './internal/defaultConfiguration';
+import { useState, useEffect, useCallback } from 'react';
+import { Platform } from 'react-native';
+import DEFAULT_CONFIGURATION from '@react-native-community/netinfo/src/internal/defaultConfiguration';
 import NativeInterface from './internal/nativeInterface';
 import State from './internal/state';
-import * as Types from './internal/types';
+import * as Types from '@react-native-community/netinfo/src/internal/types';
 
 // Stores the currently used configuration
 let _configuration = DEFAULT_CONFIGURATION;
@@ -174,7 +174,7 @@ export function useNetInfoInstance(
   };
 }
 
-export * from './internal/types';
+export * from '@react-native-community/netinfo/src/internal/types';
 
 export default {
   configure,

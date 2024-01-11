@@ -1,12 +1,12 @@
 {
-  "name": "@react-native-oh-library/netinfo",
-  "version": "11.1.0-0.0.2",
+  "name": "@react-native-oh-tpl/netinfo",
+  "version": "11.1.0-0.0.4",
   "description": "React Native Network Info API for iOS & Android",
   "harmony": {
     "alias": "@react-native-community/netinfo"
   },
   "react-native": "src/index.ts",
-  "types": "lib/typescript/src/index.d.ts",
+  "types": "lib/typescript/index.d.ts",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "files": [
@@ -29,19 +29,9 @@
   "license": "MIT",
   "scripts": {
     "start": "react-native start",
-    "start:android": "react-native run-android --appId com.reactnativecommunity.netinfo.example",
-    "start:ios": "react-native run-ios",
-    "start:macos": "react-native run-macos --scheme NetInfoExample --project-path example/macos",
-    "start:web": "webpack-dev-server --config example/webpack.config.js",
-    "start:windows": "install-windows-test-app --project-directory example/windows && react-native run-windows --root example --arch x64",
-    "test": "yarn validate:eslint && yarn validate:typescript && yarn test:jest",
-    "validate:eslint": "eslint \"src/**/*.{js,ts,tsx}\" \"example/**/*.{js,ts,tsx}\"",
+    "test": "yarn validate:eslint && yarn validate:typescript",
+    "validate:eslint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "validate:typescript": "tsc --project ./ --noEmit",
-    "test:jest": "jest \"/src/\"",
-    "build:e2e:macos": "scripts/run_macos_e2e.sh 'build'",
-    "test:e2e:macos": "scripts/run_macos_e2e.sh 'test'",
-    "ci:publish": "yarn semantic-release",
-    "semantic-release": "semantic-release",
     "prepare": "bob build"
   },
   "keywords": [
@@ -55,9 +45,12 @@
     "react-native": ">=0.59"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@react-native-community/netinfo": "11.1.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",

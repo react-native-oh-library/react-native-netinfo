@@ -24,8 +24,8 @@
 
 import type { TurboModule } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
-import {NetInfoConfiguration} from './types';
-import {NetInfoNativeModuleState} from './privateTypes';
+import { NetInfoConfiguration } from '@react-native-community/netinfo/src/internal/types';
+import { NetInfoNativeModuleState } from '@react-native-community/netinfo/src/internal/privateTypes';
 
 export interface Spec extends TurboModule {
   //--no-ignore

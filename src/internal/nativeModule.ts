@@ -7,8 +7,8 @@
  * @format
  */
 
-import {NativeModules} from 'react-native';
-import {NetInfoNativeModule} from './privateTypes';
+import { NativeModules } from 'react-native';
+import { NetInfoNativeModule } from '@react-native-community/netinfo/src/internal/privateTypes';
 
 // React Native sets `__turboModuleProxy` on global when TurboModules are enabled.
 // Currently, this is the recommended way to detect TurboModules.
@@ -19,7 +19,7 @@ const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
 const RNCNetInfo: NetInfoNativeModule = isTurboModuleEnabled
   ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-    require('./NativeRNCNetInfo').default
+  require('./NativeRNCNetInfo').default
   : NativeModules.RNCNetInfo;
 
 export default RNCNetInfo;
