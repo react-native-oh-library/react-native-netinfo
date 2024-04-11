@@ -4,12 +4,12 @@
 
   },
   "author": "",
-  "name": "netinfo",
+  "name": "@react-native-oh-tpl/netinfo",
   "description": "Please describe the basic information.",
   "main": "ts.ts",
-  "version": "1.0.0",
+  "version": "11.1.0-0.0.6",
   "dependencies": {
-    "rnoh": "file:../rnoh"
+    "rnoh": "file:../libs/rnoh-4.1.0.400.har"
   },
   "types": 'har'
 }
