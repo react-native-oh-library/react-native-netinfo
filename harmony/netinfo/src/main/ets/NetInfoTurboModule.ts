@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import { TurboModule } from 'rnoh/ts';
-import type { TurboModuleContext } from 'rnoh/ts';
+import { TurboModule } from '@rnoh/react-native-openharmony/ts';
+import type { TurboModuleContext } from '@rnoh/react-native-openharmony/ts';
 import wifiManager from '@ohos.wifiManager';
 import connection from '@ohos.net.connection'
 import Logger from './Logger'
