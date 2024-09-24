@@ -26,6 +26,7 @@ import { TurboModule } from '@rnoh/react-native-openharmony/ts';
 import type { TurboModuleContext } from '@rnoh/react-native-openharmony/ts';
 import wifiManager from '@ohos.wifiManager';
 import connection from '@ohos.net.connection'
+import { radio } from '@kit.TelephonyKit';
 import Logger from './Logger'
 
 class NetInfoState {
@@ -47,6 +48,8 @@ class Details {
   linkSpeed?: number
   rxLinkSpeed?: number
   txLinkSpeed?: number
+  carrier?: string;
+  cellularGeneration?:string | null;
 }
 
 export class NetInfoTurboModule extends TurboModule {
@@ -127,9 +130,9 @@ export class NetInfoTurboModule extends TurboModule {
   listenerGetCurrentState(): void {
     if (this.numberOfListeners > 0) {
       this.createConnectionEvent()
-        .then(data => {
-          this.ctx.rnInstance.emitDeviceEvent('netInfo.networkStatusDidChange', data)
-        })
+          .then(data => {
+            this.ctx.rnInstance.emitDeviceEvent('netInfo.networkStatusDidChange', data)
+          })
     }
   }
 
@@ -162,6 +165,9 @@ export class NetInfoTurboModule extends TurboModule {
           case 3:
             event.type = 'ethernet'
             break
+          case 4:
+            event.type = 'vpn';
+            break
           default:
             event.type = 'unknown'
             break
@@ -176,10 +182,40 @@ export class NetInfoTurboModule extends TurboModule {
     return event;
   }
 
+  getNetworkType(cellularInfo: radio.SignalInformation){
+    let networkType: string | null = null;
+    switch (cellularInfo.signalType) {
+      case 0:
+        networkType =  null;
+        break;
+      case 1:
+      case 2:
+        networkType = '2g';
+        break;
+      case 3:
+      case 4:
+        networkType = '3g';
+        break;
+      case 5:
+        networkType = '4g';
+        break;
+      case 6:
+        networkType = '5g';
+        break;
+    }
+    return networkType;
+  }
+
   async createDetails(detailsInterface: string): Promise<Details> {
     const details: Details = {}
     switch (detailsInterface) {
       case 'cellular':
+        const slotId = await radio.getPrimarySlotId();
+        const cellularInfo = radio.getSignalInformationSync(slotId);
+        const networkType = this.getNetworkType(cellularInfo[0]);
+        details.cellularGeneration = networkType;
+        const networkState = await radio.getNetworkState();
+        details.carrier = networkState.longOperatorName;
         break
       case 'wifi':
         //wifi信息
@@ -200,11 +236,9 @@ export class NetInfoTurboModule extends TurboModule {
         //linkSpeed
         details.linkSpeed = linkedInfo.linkSpeed
         //rxLinkSpeed
-        details.rxLinkSpeed = linkedInfo.linkSpeed
+        details.rxLinkSpeed = linkedInfo.rxLinkSpeed;
         //txLinkSpeed
         details.txLinkSpeed = linkedInfo.linkSpeed
-        break
-      case 'ethernet':
         break
     }
     //isConnectionExpensive
