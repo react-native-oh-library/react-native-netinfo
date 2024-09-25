@@ -1,6 +1,6 @@
 {
   "name": "@react-native-oh-tpl/netinfo",
-  "version": "11.1.0-0.0.7",
+  "version": "11.1.0-0.0.8",
   "description": "React Native Network Info API for iOS & Android",
   "harmony": {
     "alias": "@react-native-community/netinfo"
