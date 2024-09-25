@@ -25,9 +25,9 @@
 import { TurboModule } from '@rnoh/react-native-openharmony/ts';
 import type { TurboModuleContext } from '@rnoh/react-native-openharmony/ts';
 import wifiManager from '@ohos.wifiManager';
-import connection from '@ohos.net.connection'
+import connection from '@ohos.net.connection';
 import { radio } from '@kit.TelephonyKit';
-import Logger from './Logger'
+import Logger from './Logger';
 
 class NetInfoState {
   type?: string
@@ -38,18 +38,18 @@ class NetInfoState {
 }
 
 class Details {
-  isConnectionExpensive?: boolean
-  ssid?: string
-  bssid?: string
-  strength?: number
-  ipAddress?: string
-  subnet?: string
-  frequency?: number
-  linkSpeed?: number
-  rxLinkSpeed?: number
-  txLinkSpeed?: number
+  isConnectionExpensive?: boolean;
+  ssid?: string;
+  bssid?: string;
+  strength?: number;
+  ipAddress?: string;
+  subnet?: string;
+  frequency?: number;
+  linkSpeed?: number;
+  rxLinkSpeed?: number;
+  txLinkSpeed?: number;
   carrier?: string;
-  cellularGeneration?:string | null;
+  cellularGeneration?: string | null;
 }
 
 export class NetInfoTurboModule extends TurboModule {
@@ -131,8 +131,8 @@ export class NetInfoTurboModule extends TurboModule {
     if (this.numberOfListeners > 0) {
       this.createConnectionEvent()
           .then(data => {
-            this.ctx.rnInstance.emitDeviceEvent('netInfo.networkStatusDidChange', data)
-          })
+            this.ctx.rnInstance.emitDeviceEvent('netInfo.networkStatusDidChange', data);
+          });
     }
   }
 
@@ -156,21 +156,21 @@ export class NetInfoTurboModule extends TurboModule {
       //连接类型
       if (netCapabilities.bearerTypes.length == 1) { //只有一个网络类型
         switch (netCapabilities.bearerTypes[0]) {
-          case 0:
-            event.type = 'cellular'
-            break
-          case 1:
-            event.type = 'wifi'
-            break
-          case 3:
-            event.type = 'ethernet'
-            break
-          case 4:
+          case connection.NetBearType.BEARER_CELLULAR:
+            event.type = 'cellular';
+            break;
+          case connection.NetBearType.BEARER_WIFI:
+            event.type = 'wifi';
+            break;
+          case connection.NetBearType.BEARER_ETHERNET:
+            event.type = 'ethernet';
+            break;
+          case connection.NetBearType.BEARER_VPN:
             event.type = 'vpn';
-            break
+            break;
           default:
-            event.type = 'unknown'
-            break
+            event.type = 'unknown';
+            break;
         }
       } //判断是否可访问internet
       event.isInternetReachable = netCapabilities.networkCap.indexOf(16) != -1
@@ -182,24 +182,24 @@ export class NetInfoTurboModule extends TurboModule {
     return event;
   }
 
-  getNetworkType(cellularInfo: radio.SignalInformation){
+  getNetworkType(cellularInfo: radio.SignalInformation) {
     let networkType: string | null = null;
     switch (cellularInfo.signalType) {
-      case 0:
-        networkType =  null;
+      case radio.NetworkType.NETWORK_TYPE_UNKNOWN:
+        networkType = null;
         break;
-      case 1:
-      case 2:
+      case radio.NetworkType.NETWORK_TYPE_GSM:
+      case radio.NetworkType.NETWORK_TYPE_CDMA:
         networkType = '2g';
         break;
-      case 3:
-      case 4:
+      case radio.NetworkType.NETWORK_TYPE_WCDMA:
+      case radio.NetworkType.NETWORK_TYPE_TDSCDMA:
         networkType = '3g';
         break;
-      case 5:
+      case radio.NetworkType.NETWORK_TYPE_LTE:
         networkType = '4g';
         break;
-      case 6:
+      case radio.NetworkType.NETWORK_TYPE_NR:
         networkType = '5g';
         break;
     }
@@ -207,42 +207,44 @@ export class NetInfoTurboModule extends TurboModule {
   }
 
   async createDetails(detailsInterface: string): Promise<Details> {
-    const details: Details = {}
+    const details: Details = {};
     switch (detailsInterface) {
       case 'cellular':
         const slotId = await radio.getPrimarySlotId();
         const cellularInfo = radio.getSignalInformationSync(slotId);
-        const networkType = this.getNetworkType(cellularInfo[0]);
-        details.cellularGeneration = networkType;
+        if (cellularInfo && cellularInfo.length > 0) {
+          const networkType = this.getNetworkType(cellularInfo[0]);
+          details.cellularGeneration = networkType;
+        }
         const networkState = await radio.getNetworkState();
         details.carrier = networkState.longOperatorName;
-        break
+        break;
       case 'wifi':
         //wifi信息
-        const linkedInfo = await wifiManager.getLinkedInfo()
+        const linkedInfo = await wifiManager.getLinkedInfo();
         //ssid
-        details.ssid = linkedInfo.ssid
+        details.ssid = linkedInfo.ssid;
         //bssid
-        details.bssid = linkedInfo.bssid
+        details.bssid = linkedInfo.bssid;
         //信号强度 与安卓备注有区别
-        details.strength = linkedInfo.rssi
+        details.strength = linkedInfo.rssi;
         //ipAddress
         const ipInfo = wifiManager.getIpInfo();
-        details.ipAddress = this.ipToString(ipInfo.ipAddress)
+        details.ipAddress = this.ipToString(ipInfo.ipAddress);
         //subnet 掩码
-        details.subnet = this.ipToString(ipInfo.netmask)
+        details.subnet = this.ipToString(ipInfo.netmask);
         //frequency
-        details.frequency = linkedInfo.frequency
+        details.frequency = linkedInfo.frequency;
         //linkSpeed
-        details.linkSpeed = linkedInfo.linkSpeed
+        details.linkSpeed = linkedInfo.linkSpeed;
         //rxLinkSpeed
         details.rxLinkSpeed = linkedInfo.rxLinkSpeed;
         //txLinkSpeed
-        details.txLinkSpeed = linkedInfo.linkSpeed
-        break
+        details.txLinkSpeed = linkedInfo.linkSpeed;
+        break;
     }
     //isConnectionExpensive
-    details.isConnectionExpensive = await connection.isDefaultNetMetered()
+    details.isConnectionExpensive = await connection.isDefaultNetMetered();
     return details;
   }
 
