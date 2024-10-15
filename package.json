@@ -1,7 +1,7 @@
 {
   "name": "@react-native-oh-tpl/netinfo",
   "version": "11.1.0-0.0.8",
-  "description": "React Native Network Info API for iOS & Android",
+  "description": "React Native Network Info API for harmonyOS",
   "harmony": {
     "alias": "@react-native-community/netinfo"
   },
@@ -10,10 +10,7 @@
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "files": [
-    "/android",
     "/harmony",
-    "!/android/build",
-    "/ios",
     "/windows",
     "/macos",
     "/src",
